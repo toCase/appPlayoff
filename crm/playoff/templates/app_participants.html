@@ -1,0 +1,53 @@
+{% extends "t_tournament.html" %}
+
+{% block title%}{{tournament}}{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center border-bottom">
+            <h3>Учасники</h3>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-9">
+            <div class="menu-search input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>            
+                <input class="form-control form-control-sm"  
+                        type="search" 
+                        name="search" 
+                        placeholder="Прізвище або І'мя ..."
+                        hx-get="{% url 'app_participants_filter' %}"
+                        hx-trigger="input changed delay:500ms, search"
+                        hx-target=".page-container"
+                        hx-swap="outerHTML"
+                        hx-indicator=".htmx-indicator"
+                        {% if query %}
+                            value="{{query}}"
+                        {% endif %}
+                        >
+            </div>
+        </div>
+        <div class="menu-buttons col-3">
+            <button type="button" 
+                    class="btn btn-warning btn-sm float-end"
+                    hx-post="{% url 'app_participants_clear' %}"
+                    hx-trigger="click"
+                    hx-target=".page-container"
+                    hx-swap="outerHTML"
+                    >Очистити</button>
+            <button type="button" 
+                    class="btn btn-primary btn-sm float-end"
+                    hx-post="{% url 'app_participants_add' %}"
+                    hx-trigger="click"
+                    hx-target=".page-container"
+                    hx-swap="outerHTML"
+                    >Додати</button>
+            
+        </div>
+        
+    </div>
+
+    {% include 'app_participants_container.html' %}  
+</div>
+{% endblock body %}

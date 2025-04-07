@@ -1,0 +1,77 @@
+
+<div class="page-container mt-3">
+    {% include 'app_category_form.html' %}
+
+    <div class="{% if form %} visually-hidden {% endif %}">
+
+        <div class="overflow-auto">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        {% comment %} <th scope="col">#</th> {% endcomment %}
+                        <th scope="col">Назва</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>        
+                <tbody id="data_tornament">
+                    {% for item in data %}    
+                    <tr>
+                        <td class="col-12">{{item.name}}</td>
+                        
+                        <td class="col p-0">            
+                            <div 
+                                class="btn btn-sm"             
+                                type="button" 
+                                id="tb-but-edit" 
+                                hx-post="{% url 'app_category_edit' item.idx %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">
+                                EDIT
+                            </div>
+                        </td>
+                        <td class="col p-0">
+                            <button 
+                                class="btn btn-sm btn-outline-light text-danger"             
+                                type="button" 
+                                id="tb-but-del" 
+                                hx-post="{% url 'app_category_delete' item.idx %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">
+                                DEL
+                            </button>
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}    
+                </tbody>  
+            </table>
+        </div>
+
+        {% if pag %}
+        <div class="btn-group mt-3" role="group" aria-label="pagination">
+            {% for  page in pag %}
+                {% if page == apage %}
+                    <button type="button" 
+                                class="btn btn-sm btn-primary"
+                                hx-post="{% url 'app_category_page' page %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">{{page}}</button>
+                {% else %}
+                    <button type="button" 
+                    class="btn btn-sm"
+                    hx-post="{% url 'app_category_page' page %}"
+                    hx-trigger="click"
+                    hx-target=".page-container"
+                    hx-swap="outerHTML">{{page}}</button>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>

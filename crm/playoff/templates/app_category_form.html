@@ -1,0 +1,31 @@
+<div class=" mt-3 mb-3 {% if not form %} visually-hidden {% endif %}">
+    <div class="shadow p-3 mb-5 bg-body-tertiary col-xl-8 m-auto">
+        <form action="" class="row g-3" method="POST">
+            {% csrf_token %}
+                <div class="col-12">
+                    <label class="form-label-sm" for="tournament-name">Назва турніру:</label>
+                    {{form.name}}
+                </div> 
+
+                <div class="hstack gap-3 align-items-end">                    
+                    <div class="btn-group ms-auto" role="group">
+                        <button type="button" class="btn btn-success btn-save float" id="fw-but-save"
+                            hx-post="{% url 'app_category_save' id %}" hx-trigger="click" hx-target=".page-container"
+                            hx-swap="outerHTML">Зберегти</button>
+
+                        <button type="button" class="btn btn-warning btn-sm btn-cls" id="fw-but-close"
+                            hx-post="{% url 'app_category_close' %}" hx-trigger="click" hx-target=".page-container"
+                            hx-swap="outerHTML">Закрити</button>
+                    </div>                   
+                </div> 
+        </form>
+    </div>
+
+    {% if errors %}
+    <div class="shadow p-3 mb-5 bg-body-tertiary col-xl-8 m-auto alert-danger" role="alert">        
+        {% for message in errors %}
+        <span style="color:#dc3545;" class="mx-3"><i class="bi bi-exclamation-triangle-fill"></i></span><span>{{ message }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

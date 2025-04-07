@@ -1,0 +1,87 @@
+
+<div class="page-container mt-3">
+    {% include 'app_tournament_form.html' %}
+
+    <div class="{% if form %} visually-hidden {% endif %}">
+
+        <div class="overflow-auto">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        {% comment %} <th scope="col">#</th> {% endcomment %}
+                        <th scope="col">Назва турніру</th>
+                        <th scope="col">Місце проведення</th>
+                        <th scope="col">Учасники</th>
+                        <th scope="col">Змагання</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>        
+                <tbody id="data_tornament">
+                    {% for item in data %}    
+                    <tr>
+                        <td class="col-5">{{item.name}}</td>
+                        <td class="col-3">{{item.place}}</td>
+                        <td class="col-2">{{item.participants_count}}</td>
+                        <td class="col-2">{{item.competition_count}}</td>
+
+                        <td class="col p-0">  
+                            <a href="{% url 'app_participants' item.idx %}" class="link-body-emphasis btn btn-sm py-auto mx-3">OPEN</a>
+                        </td>
+                        
+                        <td class="col p-0">            
+                            <div 
+                                class="btn btn-sm"             
+                                type="button" 
+                                id="tb-but-edit" 
+                                hx-post="{% url 'app_tournament_edit' item.idx %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">
+                                EDIT
+                            </div>
+                        </td>
+                        <td class="col p-0">
+                            <button 
+                                class="btn btn-sm btn-outline-light text-danger mx-3"             
+                                type="button" 
+                                id="tb-but-del" 
+                                hx-post="{% url 'app_tournament_delete' item.idx %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">
+                                DEL
+                            </button>
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}    
+                </tbody>  
+            </table>
+        </div>
+
+        {% if pag %}
+        <div class="btn-group mt-3" role="group" aria-label="pagination">
+            {% for  page in pag %}
+                {% if page == apage %}
+                    <button type="button" 
+                                class="btn btn-sm btn-primary"
+                                hx-post="{% url 'app_tournament_page' page %}"
+                                hx-trigger="click"
+                                hx-target=".page-container"
+                                hx-swap="outerHTML">{{page}}</button>
+                {% else %}
+                    <button type="button" 
+                    class="btn btn-sm"
+                    hx-post="{% url 'app_tournament_page' page %}"
+                    hx-trigger="click"
+                    hx-target=".page-container"
+                    hx-swap="outerHTML">{{page}}</button>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>

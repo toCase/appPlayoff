@@ -1,0 +1,19 @@
+{% extends "t_main.html"  %}
+
+{% block title %}
+Вхід
+{% endblock title %}
+
+{% block body %}
+    <div class="container bg-light shadow-md p-5 form-layout">
+        <form method="post" autocomplete="off" >
+            {% csrf_token %}
+            {{form.as_p}}
+            <br>
+            <button type="submit" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4">Login</button>
+        </form>
+        <br>
+        <p>У вас немає аккаунта?</p>
+        <a href="{% url 'register' %}">Зареєструватись</a>
+    </div>
+{% endblock body %}
